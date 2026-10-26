@@ -1,0 +1,22 @@
+
+@startuml
+title implement (kanban and scrum) Workflow
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #EAF2F8
+  BorderColor #2874A6
+  DiamondBackgroundColor #FCF3CF
+  DiamondBorderColor #B7950B
+  StartColor #239B56
+  EndColor #C0392B
+}
+start
+:pick the most prioritize backlog;
+:product test;
+:implement;
+:Create PR;
+:product document;
+:Merge to stage;
+stop
+@enduml

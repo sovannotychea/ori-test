@@ -1,0 +1,31 @@
+@startuml
+title Release Workflow
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #EAF2F8
+  BorderColor #2874A6
+  DiamondBackgroundColor #FCF3CF
+  DiamondBorderColor #B7950B
+  StartColor #239B56
+  EndColor #C0392B
+}
+
+
+:Change approval and release readiness;
+while (release readiness (PO)) is (No)
+    :Business release requirement fix;
+endwhile (Yes)
+
+:Deploy to production;
+:Run smoke tests and monitor services (QA);
+
+if (release successful?) then (Yes)
+  :OUTPUT - Features delivered\nand production bugs resolved;
+else (No)
+  :Execute rollback or recovery plan;
+  :Incident investigation and remediation;
+endif
+:release records,\nincident reports;
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+title Intake Workflow
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #EAF2F8
+  BorderColor #2874A6
+  DiamondBackgroundColor #FCF3CF
+  DiamondBorderColor #B7950B
+  StartColor #239B56
+  EndColor #C0392B
+}
+
+start
+
+fork
+  :INPUT 1 - PMO Projects;
+  :New products, major enhancements,\nregulatory-driven changes;
+  :Review requirements, business impact,\nestimation and priority;
+  :Assess severity and SLA;
+  :Enhancement or new feature workflow (scrum);
+fork again
+  :INPUT 2 - IT Support;
+  :Production incidents and defects;
+  :Incident triage;\nAssess severity and SLA;
+  if (Critical production incident?) then (Yes)
+    :Activate emergency hotfix workflow (kanban);
+  else (No)
+    :Add defect to backlog (kanban);
+  endif
+end fork
+
+stop
+
+@enduml
