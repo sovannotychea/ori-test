@@ -11,26 +11,25 @@ skinparam activity {
   StartColor #239B56
   EndColor #C0392B
 }
-
 start
-
 fork
-  :INPUT 1 - PMO Projects;
+  :INPUT 1 - PO or PMO Projects;
   :New products, major enhancements,\nregulatory-driven changes;
   :Review requirements, business impact,\nestimation and priority;
-  :Assess severity and SLA;
-  :Enhancement or new feature workflow (scrum);
+  :Dev input, Technical debt, SLA;
+  :Assess severity;
+  :Activate implement Workflow (scrum);
 fork again
   :INPUT 2 - IT Support;
   :Production incidents and defects;
-  :Incident triage;\nAssess severity and SLA;
-  if (Critical production incident?) then (Yes)
-    :Activate emergency hotfix workflow (kanban);
+  :Review requirements, business impact,\nestimation and priority;
+  :Dev input, Technical debt, SLA;
+  :Assess severity;
+  if (risk heatmap\nCritical production incident?) then (Yes)
+    :Activate implement Workflow emergency hotfix (kanban);
   else (No)
     :Add defect to backlog (kanban);
   endif
 end fork
-
 stop
-
 @enduml

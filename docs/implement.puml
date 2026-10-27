@@ -12,11 +12,20 @@ skinparam activity {
   EndColor #C0392B
 }
 start
-:pick the most prioritize backlog;
-:product test;
+:pick the most prioritize backlog ;
+:producing test;
 :implement;
 :Create PR;
-:product document and release sop;
+:producing document and release sop;
+:Merge to stage;
+:stage and regression testing (QA));
+while (Tests passed?) is (No)
+    partition "Reopen" {
+      :Move ticket to reopen (QA);
+      :refix and move ticket back to ready to test (dev);
+    }
+    :Retest;
+endwhile (Yes)
 :Merge to stage;
 stop
 @enduml

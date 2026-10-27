@@ -14,18 +14,24 @@ skinparam activity {
 start
 :stage and regression testing;
 :UAT validation where applicable;
-while (Tests passed?) is (No)
+while (smoke Tests passed?) is (No)
     :Return defects to development;
+    partition "QA Team" {
+          :Move ticket defects (QA) and refix run unit tests (dev);
+        }
     partition "Development Team" {
-      :Move ticket to reopen (QA) and refix and move ticket back to ready to test (dev);
+      :Active implement (kanban and scrum) Workflow ;
     }
     :Retest;
 endwhile (Yes)
 :smoke tests (covers only the core functionalities PVT);
 while (smoke Tests passed?) is (No)
     :Return defects to development;
+    partition "QA Team" {
+          :Move ticket defects (QA) and refix run unit tests (dev);
+        }
     partition "Development Team" {
-      :Move ticket defects (QA) and refix run unit tests (dev);
+      :Active implement (kanban and scrum) Workflow ;
     }
     :Retest;
 endwhile (Yes)
