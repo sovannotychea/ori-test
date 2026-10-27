@@ -16,7 +16,7 @@ start
 :product test;
 :implement;
 :Create PR;
-:product document;
+:product document and release sop;
 :Merge to stage;
 stop
 @enduml
