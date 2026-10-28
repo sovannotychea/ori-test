@@ -16,10 +16,11 @@ package "security and availability Layer" {
 }
 
 package "Application Layer" {
-    [API Gateway] as Gateway
+    [API Gateway - Interoperability] as Gateway
     [Authentication Service] as Auth
     [Business 1 Services] as Services1
     [Business 2 Services] as Services2
+    [CBS] as cbs
 }
 
 package "Data Layer" {
@@ -42,8 +43,9 @@ loadbalanced --> Gateway : HTTPS / REST
 Gateway --> Auth : Authenticate
 Gateway --> Services1 : Route requests
 Gateway --> Services2 : Route requests
-Gateway --> Notify : Route requests
-Gateway --> External : Route requests
+Gateway --> cbs
+Gateway --> Notify : Send notifications
+Gateway --> External : API integration
 Auth --> DB : Read / Write
 Auth --> Redis : Read / Write
 Services1 --> DB : Read / Write
