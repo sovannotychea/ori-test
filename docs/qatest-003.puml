@@ -22,7 +22,7 @@ while (smoke Tests passed?) is (No)
 if (timely releases?) then (Yes)
   :Return defects to development;
     partition "QA Team" {
-               :Move ticket defects (QA)
+               :Move ticket defects (QA);
                :finding defects details;
     }
     partition "Development Team" {
