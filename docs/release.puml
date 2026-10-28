@@ -1,31 +1,60 @@
 @startuml
-title Release Workflow
+title System Architecture
 
-skinparam backgroundColor white
-skinparam shadowing false
-skinparam activity {
-  BackgroundColor #EAF2F8
-  BorderColor #2874A6
-  DiamondBackgroundColor #FCF3CF
-  DiamondBorderColor #B7950B
-  StartColor #239B56
-  EndColor #C0392B
+skinparam componentStyle rectangle
+skinparam shadowing true
+
+actor User
+
+package "Presentation Layer" {
+    [Web Application] as Web
+    [Mobile Application] as Mobile
+}
+package "security and availability Layer" {
+    [cloudflare] as cloudflare
+    [load balanced] as loadbalanced
 }
 
+package "Application Layer" {
+    [API Gateway] as Gateway
+    [Authentication Service] as Auth
+    [Business 1 Services] as Services1
+    [Business 2 Services] as Services2
+}
 
-:Change approval and release readiness;
-while (release readiness (PO)) is (No)
-    :Business release requirement fix;
-endwhile (Yes)
+package "Data Layer" {
+    database "PostgreSQL" as DB
+    database "Redis Cache" as Redis
+}
 
-:Deploy to production;
-:Run smoke tests and monitor services (QA);
+package "External Systems" {
+    [Notification Service] as Notify
+    [Third-party APIs] as External
+}
 
-if (release successful?) then (Yes)
-  :OUTPUT - Features delivered\nand production bugs resolved;
-else (No)
-  :Execute rollback or recovery plan;
-  :Incident investigation and remediation;
-endif
-:release records,\nincident reports;
+User --> Web
+User --> Mobile
+
+Web --> cloudflare : HTTPS / REST
+Mobile --> cloudflare : HTTPS / REST
+cloudflare --> loadbalanced : HTTPS / REST
+loadbalanced --> Gateway : HTTPS / REST
+Gateway --> Auth : Authenticate
+Gateway --> Services1 : Route requests
+Gateway --> Services2 : Route requests
+Gateway --> Notify : Route requests
+Gateway --> External : Route requests
+Auth --> DB : Read / Write
+Auth --> Redis : Read / Write
+Services1 --> DB : Read / Write
+Services2 --> DB : Read / Write
+Services1 --> Redis : Cache operations
+Services2 --> Redis : Cache operations
+Services1 --> Gateway : Send notifications
+Services2 --> Gateway : API integration
+Notify --> Redis : Cache operations
+External --> Redis : Cache operations
+Notify --> DB : Read / Write
+External --> DB : Read / Write
+
 @enduml
