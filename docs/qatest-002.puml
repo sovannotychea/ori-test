@@ -1,0 +1,29 @@
+@startuml
+title QA Test Workflow
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #EAF2F8
+  BorderColor #2874A6
+  DiamondBackgroundColor #FCF3CF
+  DiamondBorderColor #B7950B
+  StartColor #239B56
+  EndColor #C0392B
+}
+start
+:UAT validation where applicable;
+while (Business validation passed?) is (No)
+    :Return defects to development reopen;
+    partition "QA Team" {
+          :Move ticket defects (QA);
+          :finding defects details;
+        }
+    partition "Development Team" {
+      :Implement Workflow ;
+    }
+    :Retest;
+endwhile (Yes)
+:Qualify Release;
+stop
+@enduml

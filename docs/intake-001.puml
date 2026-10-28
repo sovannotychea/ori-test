@@ -1,0 +1,32 @@
+@startuml
+title Intake Workflow
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #EAF2F8
+  BorderColor #2874A6
+  DiamondBackgroundColor #FCF3CF
+  DiamondBorderColor #B7950B
+  StartColor #239B56
+  EndColor #C0392B
+}
+start
+fork
+  :PO or PMO get request;
+  :Assessment request (Dev, PO Or PMO);
+  :Priority by risk heatmap-matrix (Probability/Likelihood and Severity/Impact);
+  :Assessment Backlog and Dev Input (availability human resource and Technical debt) get SLA;
+  :consensus/compliant/approval;
+  :trigger scrum planing;
+fork again
+  :IT Sucpport fund defect;
+  :Assessment defect (Dev, PO Or PMO);
+  :Priority by risk heatmap-matrix (Probability/Likelihood and Severity/Impact) ;
+  :Assessmenct Backlog and Dev Input (availability human resource and Technical debt) get SLA;
+  :consensus/compliant/approval;
+  :trigger urgent fix or backlog fix;
+end fork
+:entry as Jira ticket;
+stop
+@enduml
