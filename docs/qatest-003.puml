@@ -13,22 +13,27 @@ skinparam activity {
 }
 start
 :Qualify Release;
+:Change approval and release readiness;
+while (release readiness (PO)) is (No)
+    :Business release requirement fix;
+endwhile (Yes)
+:Deploy to production;
 while (smoke Tests passed?) is (No)
-if (timely releases?) then (No)
+if (timely releases?) then (Yes)
   :Return defects to development;
-           partition "QA Team" {
+    partition "QA Team" {
                :Move ticket defects (QA)
                :finding defects details;
-           }
-           partition "Development Team" {
+    }
+    partition "Development Team" {
            :Implement Workflow ;
-           }
-           :Retest;
+    }
+  :Retest;
 else (No)
   :rollback;
   stop
 endif
 endwhile (Yes)
-:Ready to Release;
+:Released;
 stop
 @enduml
