@@ -27,7 +27,9 @@ package "Application Layer" {
 package "Pub-Sub and Queue Layer" {
     [RabbitMQ] as mq
 }
-
+package "Evnet Layer" {
+    database "Kafka" as kafka
+}
 package "Data Layer" {
     database "PostgreSQL" as DB
     database "Redis Cache" as Redis
@@ -42,6 +44,9 @@ package "NBC Systems" {
     [Bakong swarm] as nbcbakong
     [Bakong Provider] as bakongpro
 }
+
+Gateway<-->kafka
+
 User --> Web
 User --> Mobile
 Web --> cloudflare : HTTPS / REST
