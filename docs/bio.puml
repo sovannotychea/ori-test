@@ -1,0 +1,41 @@
+
+@startuml
+title Biometric Authentication - Sequence Diagram
+autonumber
+actor User
+participant "Mobile App" as App
+participant "Biometric SDK\n(Fingerprint / Face ID)" as Bio
+participant "Backend API" as API
+database "User Database" as DB
+
+User -> App: Open application
+App -> API: Request authentication challenge
+API -> API: Generate nonce / challenge
+API --> App: Return challenge
+
+App -> Bio: Request biometric authentication
+Bio -> User: Prompt for fingerprint / face
+User -> Bio: Provide biometric input
+
+alt Biometric verification successful
+    Bio --> App: Authentication success
+    App -> App: Sign challenge using device key
+    App -> API: Submit challenge + signature
+    API -> DB: Retrieve registered public key
+    DB --> API: Return public key
+    API -> API: Verify signature and challenge
+
+    alt Signature valid
+        API --> App: Authentication success + token
+        App --> User: Grant access
+    else Signature invalid
+        API --> App: Authentication failed
+        App --> User: Deny access
+    end
+
+else Biometric verification failed
+    Bio --> App: Authentication failure
+    App --> User: Show error / retry
+end
+
+@enduml

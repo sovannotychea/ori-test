@@ -22,6 +22,9 @@ package "Application Layer" {
     [Business 2 Services] as Services2
     [CBS] as cbs
 }
+package "Pub-Sub and Queue Layer" {
+    [RabbitMQ] as mq
+}
 
 package "Data Layer" {
     database "PostgreSQL" as DB
@@ -59,4 +62,9 @@ External --> Redis : Cache operations
 Notify --> DB : Read / Write
 External --> DB : Read / Write
 
+
+Services1<-->mq
+Services2<-->mq
+Notify <--> mq
+External <--> mq
 @enduml
