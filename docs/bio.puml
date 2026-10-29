@@ -24,7 +24,6 @@ alt Biometric verification successful
     API -> DB: Retrieve registered public key
     DB --> API: Return public key
     API -> API: Verify signature and challenge
-
     alt Signature valid
         API --> App: Authentication success + token
         App --> User: Grant access
