@@ -5,6 +5,7 @@ skinparam componentStyle rectangle
 skinparam shadowing true
 
 actor User
+actor NBC
 
 package "Presentation Layer" {
     [Web Application] as Web
@@ -20,6 +21,7 @@ package "Application Layer" {
     [Authentication Service] as Auth
     [Business 1 Services] as Services1
     [Business 2 Services] as Services2
+    [Bakong Service] as bakong
     [CBS] as cbs
 }
 package "Pub-Sub and Queue Layer" {
@@ -35,17 +37,18 @@ package "External Systems" {
     [Notification Service] as Notify
     [Third-party APIs] as External
 }
-
+package "NBC Systems" {
+    [CIFTP swarm] as nbcciftp
+    [Bakong swarm] as nbcbakong
+    [Bakong Provider] as bakongpro
+}
 User --> Web
 User --> Mobile
-
 Web --> cloudflare : HTTPS / REST
 Mobile --> cloudflare : HTTPS / REST
 cloudflare --> loadbalanced : HTTPS / REST
 loadbalanced --> Gateway : HTTPS / REST
 Gateway --> Auth : Authenticate
-Gateway --> Services1 : Route requests
-Gateway --> Services2 : Route requests
 Gateway --> cbs
 Gateway --> Notify : Send notifications
 Gateway --> External : API integration
@@ -55,13 +58,19 @@ Services1 --> DB : Read / Write
 Services2 --> DB : Read / Write
 Services1 --> Redis : Cache operations
 Services2 --> Redis : Cache operations
-Services1 --> Gateway : Send notifications
-Services2 --> Gateway : API integration
+Services1 <--> Gateway : Send notifications
+Services2 <--> Gateway : API integration
 Notify --> Redis : Cache operations
 External --> Redis : Cache operations
 Notify --> DB : Read / Write
 External --> DB : Read / Write
 
+NBC <--> bakongpro
+bakongpro <--> Gateway
+bakong <--> nbcciftp
+bakong --> Notify
+bakong <--> Gateway
+nbcciftp <--> nbcbakong
 
 Services1<-->mq
 Services2<-->mq
