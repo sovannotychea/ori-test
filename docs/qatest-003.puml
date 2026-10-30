@@ -1,5 +1,5 @@
 @startuml
-title QA Release Workflow
+title Release Workflow
 
 skinparam backgroundColor white
 skinparam shadowing false
